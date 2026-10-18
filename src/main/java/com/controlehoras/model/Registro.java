@@ -7,7 +7,13 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "registros")
 public class Registro {
+	@ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = true)
+	private Usuario usuario;
 
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
