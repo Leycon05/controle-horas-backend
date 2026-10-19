@@ -19,11 +19,12 @@ public class RegistroController {
 
     @GetMapping
     public List<Registro> listar(
+            @RequestParam(required = false) Long usuarioId,
             @RequestParam(required = false) String dataExacta,
             @RequestParam(required = false) String diaSemana,
             @RequestParam(required = false) String inicio,
             @RequestParam(required = false) String fim) {
-        return service.filtrar(dataExacta, diaSemana, inicio, fim);
+        return service.filtrar(usuarioId, dataExacta, diaSemana, inicio, fim);
     }
 
     @PostMapping("/interpretar")

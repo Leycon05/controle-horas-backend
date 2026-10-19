@@ -44,10 +44,9 @@ public class RegistroService {
         DIA_ALIASES.put("sab", "Sábado");
     }
 
-    public List<Registro> filtrar(String dataExacta, String diaSemana, String inicio, String fim) {
-        return repository.filtrarRegistros(dataExacta, diaSemana, inicio, fim);
+    public List<Registro> filtrar(Long usuarioId, String dataExacta, String diaSemana, String inicio, String fim) {
+        return repository.filtrarRegistros(usuarioId, dataExacta, diaSemana, inicio, fim);
     }
-
     public List<Registro> salvarLote(List<Registro> registros) {
         return repository.saveAll(registros);
     }
