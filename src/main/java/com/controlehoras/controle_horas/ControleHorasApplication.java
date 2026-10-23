@@ -3,13 +3,11 @@ package com.controlehoras.controle_horas;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.controlehoras")
+@EntityScan(basePackages = "com.controlehoras.entity")
 @EnableJpaRepositories(basePackages = "com.controlehoras.repository")
-@EntityScan(basePackages = "com.controlehoras.model")
 public class ControleHorasApplication {
 
     public static void main(String[] args) {
