@@ -13,20 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configure(http))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/webhook/whatsapp").permitAll()
-                .anyRequest().permitAll() // Permitido temporariamente para testes
+                .requestMatchers("/api/webhook/**").permitAll()
+                .anyRequest().authenticated()
             );
-
         return http.build();
     }
 }
