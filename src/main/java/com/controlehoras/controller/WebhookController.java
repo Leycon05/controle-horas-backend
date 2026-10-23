@@ -9,6 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/webhook")
+@CrossOrigin(origins = "*")
 public class WebhookController {
 
     @Autowired
