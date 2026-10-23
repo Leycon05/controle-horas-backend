@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
-@EntityScan(basePackages = "com.controlehoras.entity")
+@SpringBootApplication(scanBasePackages = "com.controlehoras")
+@EntityScan(basePackages = "com.controlehoras.model")
 @EnableJpaRepositories(basePackages = "com.controlehoras.repository")
 public class ControleHorasApplication {
 
