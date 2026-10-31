@@ -15,16 +15,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import jakarta.servlet.Filter;
-
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig<JwtAuthenticationFilter> {
+public class SecurityConfig {
 
-    @Autowired(required = false)
-    private Filter jwtAuthFilter; // Filtro que lê e valida o Bearer token
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthFilter; // Injeta o tipo específico da classe
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,12 +33,9 @@ public class SecurityConfig<JwtAuthenticationFilter> {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**", "/api/webhook/**", "/login/**", "/registro/**").permitAll()
-                .anyRequest().authenticated() // Exige autenticação JWT para /api/registros/**
-            );
-
-        if (jwtAuthFilter != null) {
-            http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        }
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -48,7 +43,11 @@ public class SecurityConfig<JwtAuthenticationFilter> {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://controle-horas-front.vercel.app", "http://localhost:3000", "http://127.0.0.1:5500"));
+        configuration.setAllowedOrigins(List.of(
+            "https://controle-horas-front.vercel.app", 
+            "http://localhost:3000", 
+            "http://127.0.0.1:5500"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
