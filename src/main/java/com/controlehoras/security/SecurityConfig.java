@@ -22,26 +22,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Desativa CSRF (obrigatorio para APIs REST)
+            // 1. Desativa CSRF (obrigatório para APIs REST)
             .csrf(csrf -> csrf.disable())
             
             // 2. Aplica as regras de CORS
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             
-            // 3. Define gerenciamento de sessao como STATELESS (para APIs REST / JWT)
+            // 3. Define a sessão como STATELESS
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             
-            // 4. Configura as permissoes de acesso
+            // 4. Libera o endpoint /api/auth/registro e demais rotas públicas
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Libera requisições Preflight
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
-                    "/login/**", 
-                    "/registro/**", 
-                    "/api/auth/**", 
-                    "/api/usuarios/**", 
+                    "/api/auth/**",      // Libera /api/auth/registro, /api/auth/login, etc.
+                    "/api/usuarios/**",
                     "/api/webhook/**",
-                    "/api/registro/**",
-                    "/api/login/**"
+                    "/login/**",
+                    "/registro/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             );
